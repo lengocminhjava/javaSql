@@ -4,23 +4,22 @@ public class Product {
     private int id;
     private String name;
     private double price;
-    private int cat_id;
-
+    private Category category;
 
     public Product() {
     }
 
-    public Product(int id, String name, double price, int cat_id) {
+    public Product(String name, double price, Category category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
+
+    public Product(int id, String name, double price, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.cat_id = cat_id;
-    }
-
-    public Product(String name, double price, int cat_id) {
-        this.name = name;
-        this.price = price;
-        this.cat_id = cat_id;
+        this.category = category;
     }
 
     public int getId() {
@@ -47,12 +46,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getCat_id() {
-        return cat_id;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCat_id(int cat_id) {
-        this.cat_id = cat_id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", cat_id=" + cat_id +
+                ", category=" + category +
                 '}';
     }
 }

@@ -81,7 +81,7 @@ public class TestJDBC {
 //              System.out.println(product);
 //          }
 //  Tìm Kiếm Product theo tên và theo category name
-            List<Product> products = ps.getbyName("Minh","tính");
+            List<Product> products = ps.getbyName("Minh","máy");
             if(products.size()>0){
                 for(Product product:products){
                     System.out.println(product);
@@ -90,7 +90,5 @@ public class TestJDBC {
             else {
                 System.out.println("Không có dữ liệu");
             }
-
-
     }
 }

@@ -39,12 +39,12 @@ public class ProductService implements ProductRepo {
 
     @Override
     public void insertProduct(Product product) {
-        if (checkCategory(product.getCat_id())) {
+        if (checkCategory(product.getCategory().getId())) {
             try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(INSERT_PRODUCT)) {
                 statement.setString(1, product.getName());
                 statement.setDouble(2, product.getPrice());
-                statement.setInt(3, product.getCat_id());
+                statement.setInt(3, product.getCategory().getId());
                 if (statement.executeUpdate() > 0) {
                     System.out.println("Thêm thành công");
                 } else {
@@ -69,7 +69,9 @@ public class ProductService implements ProductRepo {
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 int cat_id = rs.getInt("cat_id");
-                products.add(new Product(id, name, price, cat_id));
+                CategoryService categoryService = new CategoryService();
+                Category category = categoryService.getCategoryById(cat_id);
+                products.add(new Product(id, name, price, category));
             }
         } catch (SQLException e) {
             DatabaseConnection.printSQLException(e);
@@ -84,9 +86,9 @@ public class ProductService implements ProductRepo {
         ) {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
-            statement.setInt(3, product.getCat_id());
+            statement.setInt(3, product.getCategory().getId());
             statement.setInt(4, id);
-            if (checkCategory(product.getCat_id())) {
+            if (checkCategory(product.getCategory().getId())) {
                 if (statement.executeUpdate() > 0) {
                     System.out.println("sửa thành công");
                 } else {
@@ -127,7 +129,9 @@ public class ProductService implements ProductRepo {
                 String name = rs.getString("name");
                 double priceDown = rs.getDouble("price");
                 int cat_id = rs.getInt("cat_id");
-                products.add(new Product(id, name, priceDown, cat_id));
+                CategoryService categoryService = new CategoryService();
+                Category category = categoryService.getCategoryById(cat_id);
+                products.add(new Product(id, name, priceDown, category));
             }
             return products;
         } catch (SQLException e) {
@@ -147,7 +151,9 @@ public class ProductService implements ProductRepo {
                 String name = rs.getString("name");
                 double priceDown = rs.getDouble("price");
                 int cat_id = rs.getInt("cat_id");
-                products.add(new Product(id, name, priceDown, cat_id));
+                CategoryService categoryService = new CategoryService();
+                Category category = categoryService.getCategoryById(cat_id);
+                products.add(new Product(id, name, priceDown, category));
             }
             return products;
         } catch (SQLException e) {
@@ -168,7 +174,9 @@ public class ProductService implements ProductRepo {
                 name = rs.getString("name");
                 double price = rs.getDouble("price");
                 int cat_id = rs.getInt("cat_id");
-                products.add(new Product(id, name, price, cat_id));
+                CategoryService categoryService = new CategoryService();
+                Category category1 = categoryService.getCategoryById(cat_id);
+                products.add(new Product(id, name, price, category1));
             }
             return products;
         } catch (SQLException e) {
