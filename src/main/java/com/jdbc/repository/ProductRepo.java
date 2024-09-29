@@ -6,14 +6,27 @@ import com.jdbc.model.Product;
 import java.util.List;
 
 public interface ProductRepo {
-    boolean checkCategory(int id);
-    void insertProduct(Product product);
+
+    Category getCategory(Category category);
+
+    boolean checkCategory(Category category);
+
+    void insertProduct(Product product, Category category);
+
     List<Product> getProduct10();
-    void updateProduct(Product product,int id);
-    void deleteCategory(int id);
+
+    void updateProduct(Product product, Category category, int id);
+
+    void deleteProductCateId(int id);
+
+    void deleteProduct(int id);
+
     List<Product> getbyPriceDown();
+
     List<Product> getbyPriceUp();
-    List<Product> getbyName(String name, String category);
+
+    List<Product> getbyName(Product product, Category category);
+
     List<Product> getAllProducts();
 
 }
