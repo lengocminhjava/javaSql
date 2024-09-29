@@ -15,7 +15,7 @@ public class TestJDBC {
 
     public static void main(String[] args) {
         CategoryService cs = new CategoryService();
-    /*    ProductService ps = new ProductService();
+/*    ProductService ps = new ProductService();
         Category c = new Category("Ơ");
         cs.addCategory(c);*/
 //         Sửa
@@ -30,7 +30,8 @@ public class TestJDBC {
             System.out.println("Không có bản ghi nào");
         }else{
             System.out.println(cs.getCategoryById(id));
-        }*/
+        }
+*/
 
 /*
   Search gần đúng name
@@ -53,7 +54,8 @@ public class TestJDBC {
           List<Product> products = ps.getbyPriceUp();
           for(Product product:products){
               System.out.println(product);
-          }*/
+          }
+*/
 //  Tìm Kiếm Product theo tên và theo category name
 /*        Category category = new Category("O");
         Product product1 = new Product("e", 123, category);
@@ -64,12 +66,14 @@ public class TestJDBC {
             }
         } else {
             System.out.println("Không có dữ liệu");
-        }*/
+        }
+*/
 //insert , update Product
-/*        ProductService pss = new ProductService();
+/*      ProductService pss = new ProductService();
         Category c1 = new Category("Ơ");
-        pss.updateProduct(new Product("Ơ", 122), c1, 26);*/
-//        CategoryService css = new CategoryService();
-//        css.deleteCategory(12);
+        pss.updateProduct(new Product("Ơ", 122), c1, 26);
+        CategoryService css = new CategoryService();
+        css.deleteCategory(12);
+ */
     }
 }
