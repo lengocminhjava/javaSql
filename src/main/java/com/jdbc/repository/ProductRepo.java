@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface ProductRepo {
 
-    Category getCategory(Category category);
-
-    boolean checkCategory(Category category);
+    boolean checkProduct(Product product);
 
     void insertProduct(Product product, Category category);
 

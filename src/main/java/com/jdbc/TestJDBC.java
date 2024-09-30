@@ -19,8 +19,8 @@ public class TestJDBC {
         Category c = new Category("Ơ");
         cs.addCategory(c);*/
 //         Sửa
-/*        Category c = new Category("tivi");
-        cs.updateCategory(c,11);*/
+/*        Category c = new Category("Đồ thể thao");
+        cs.updateCategory(c,21);*/
 /*  Xóa
         cs.deleteCategory(3);*/
 
@@ -69,11 +69,14 @@ public class TestJDBC {
         }
 */
 //insert , update Product
-/*      ProductService pss = new ProductService();
-        Category c1 = new Category("Ơ");
-        pss.updateProduct(new Product("Ơ", 122), c1, 26);
-        CategoryService css = new CategoryService();
-        css.deleteCategory(12);
- */
+      ProductService pss = new ProductService();
+        Category c1 = new Category("Đồ gia dụng");
+        pss.insertProduct(new Product("ấm nước", 500000), c1);
+/*        Category c1 = new Category("đồ gia dụng");
+        pss.updateProduct(new Product("Ấm nước", 1000000), c1, 38);*/
+//        pss.deleteProduct(62);
+/*        CategoryService css = new CategoryService();
+        css.deleteCategory(34);*/
+
     }
 }

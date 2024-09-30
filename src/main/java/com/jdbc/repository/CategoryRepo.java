@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface CategoryRepo {
 
+    Category getCategory(Category category);
+
+    boolean checkCategory(Category category);
+
     void addCategory(Category category);
 
     void updateCategory(Category category, int id);

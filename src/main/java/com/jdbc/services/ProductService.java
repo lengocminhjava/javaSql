@@ -20,33 +20,12 @@ public class ProductService implements ProductRepo {
     private final String SELECT_PRODUCT_BY_PRICE_DOWN = "Select * from product order by cat_id,price desc";
     private final String SELECT_FOR_NAME = "Select product.* from product inner join category on product.cat_id = category.id where product.name like ? and category.name like ?";
     private final String SELECT_PRODUCT_BY_PRICE_UP = "Select * from product order by cat_id,price asc";
-
-
-    @Override
-    public Category getCategory(Category category) {
-        try {
-            CategoryService categoryService = new CategoryService();
-            Category category2 = null;
-            if (!categoryService.getAllCategories().contains(category)) {
-                categoryService.addCategory(category);
-            }
-            List<Category> category1 = categoryService.getCategoryByName(category.getName());
-            Set<Category> categorySet = new HashSet<>(category1);
-            for (Category c : categorySet) {
-                category2 = c;
-            }
-            return category2;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    private final String SELECT_ALL_PRODUCT = "Select * from product ";
 
     @Override
-    public boolean checkCategory(Category category) {
+    public boolean checkProduct(Product product) {
         try {
-            CategoryService categoryService = new CategoryService();
-            return categoryService.getAllCategories().contains(category);
+            return getAllProducts().contains(product);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -57,18 +36,25 @@ public class ProductService implements ProductRepo {
     public void insertProduct(Product product, Category category) {
 
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(INSERT_PRODUCT)) {
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            if (getCategory(category) == null) {
-                statement.setNull(3, Types.INTEGER);
+            CategoryService categoryService = new CategoryService();
+            if (!(checkProduct(product) && categoryService.checkCategory(category))) {
+                statement.setString(1, product.getName());
+                statement.setDouble(2, product.getPrice());
+                if (categoryService.getCategory(category) == null) {
+                    statement.setNull(3, Types.INTEGER);
+                } else {
+                    statement.setInt(3, categoryService.getCategory(category).getId());
+                }
+                if (statement.executeUpdate() > 0) {
+                    System.out.println("Thêm thành công");
+                } else {
+                    System.out.println("Thất bại");
+                }
+
             } else {
-                statement.setInt(3, getCategory(category).getId());
+                System.out.println("Tên và category đã tồn tại");
             }
-            if (statement.executeUpdate() > 0) {
-                System.out.println("Thêm thành công");
-            } else {
-                System.out.println("Thất bại");
-            }
+
         } catch (SQLException e) {
             DatabaseConnection.printSQLException(e);
         }
@@ -97,19 +83,26 @@ public class ProductService implements ProductRepo {
     @Override
     public void updateProduct(Product product, Category category, int id) {
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_PRODUCT)) {
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            if (getCategory(category) == null) {
-                statement.setNull(3, Types.INTEGER);
-            } else {
-                statement.setInt(3, getCategory(category).getId());
+            CategoryService categoryService = new CategoryService();
+            if (!(checkProduct(product) && categoryService.checkCategory(category))) {
+                statement.setString(1, product.getName());
+                statement.setDouble(2, product.getPrice());
+                if (categoryService.getCategory(category) == null) {
+                    statement.setNull(3, Types.INTEGER);
+                } else {
+                    statement.setInt(3, categoryService.getCategory(category).getId());
+                }
+                statement.setInt(4, id);
+                if (statement.executeUpdate() > 0) {
+                    System.out.println("sửa thành công");
+                } else {
+                    System.out.println("Thất bại");
+                }
             }
-            statement.setInt(4, id);
-            if (statement.executeUpdate() > 0) {
-                System.out.println("sửa thành công");
-            } else {
-                System.out.println("Thất bại");
+            else {
+                System.out.println("Tên và category đã tồn tại");
             }
+
         } catch (SQLException e) {
             DatabaseConnection.printSQLException(e);
         }
@@ -207,6 +200,22 @@ public class ProductService implements ProductRepo {
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        List<Product> products = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_ALL_PRODUCT)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                int cat_id = resultSet.getInt("cat_id");
+                CategoryService categoryService = new CategoryService();
+                Category category = categoryService.getCategoryById(cat_id);
+                Product product = new Product(id, name, price, category);
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            DatabaseConnection.printSQLException(e);
+        }
+        return products;
     }
 }

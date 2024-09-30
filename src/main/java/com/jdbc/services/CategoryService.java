@@ -21,11 +21,41 @@ public class CategoryService implements CategoryRepo {
     private final String UPDATE_CATEGORY = "update category set name=? where id=?";
     private final String DELETE_CATEGORY = "delete from category where id = ?";
 
+
+    @Override
+    public Category getCategory(Category category) {
+        try {
+            Category category2 = null;
+            if (!getAllCategories().contains(category)) {
+                addCategory(category);
+            }
+            List<Category> category1 = getCategoryByName(category.getName());
+            Set<Category> categorySet = new HashSet<>(category1);
+            for (Category c : categorySet) {
+                category2 = c;
+            }
+            return category2;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public boolean checkCategory(Category category) {
+        try {
+            return getAllCategories().contains(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public void addCategory(Category category) {
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(INSERT_CATEGORY)) {
             ProductService productService = new ProductService();
-            if (!productService.checkCategory(category)) {
+            if (!checkCategory(category)) {
                 statement.setString(1, category.getName());
                 if (statement.executeUpdate() > 0) {
                     System.out.println("Thêm thành công!");
@@ -45,7 +75,7 @@ public class CategoryService implements CategoryRepo {
     public void updateCategory(Category category, int id) {
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_CATEGORY)) {
             ProductService productService = new ProductService();
-            if (!productService.checkCategory(category)) {
+            if (!checkCategory(category)) {
                 statement.setString(1, category.getName());
                 statement.setInt(2, id);
                 if (statement.executeUpdate() > 0) {
@@ -69,7 +99,7 @@ public class CategoryService implements CategoryRepo {
             CategoryService categoryService = new CategoryService();
             Category category = categoryService.getCategoryById(id);
             ProductService productService = new ProductService();
-            if (productService.checkCategory(category)) {
+            if (checkCategory(category)) {
                 productService.deleteProductCateId(id);
                 statement.setInt(1, id);
                 if (statement.executeUpdate() > 0) {
