@@ -1,9 +1,9 @@
-package com.jdbc.model;
+package com.jdbc.baitapvenha.model;
 
 import java.util.Objects;
 
 public class Product {
-    private int id;
+    private Integer id;
     private String name;
     private double price;
     private Category category;
@@ -16,24 +16,24 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String name, double price, Category category) {
+    public Product(Integer id, String name, double price) {
+        this.id = id;
         this.name = name;
         this.price = price;
-        this.category = category;
     }
 
-    public Product(int id, String name, double price, Category category) {
+    public Product(Integer id, String name, double price, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
