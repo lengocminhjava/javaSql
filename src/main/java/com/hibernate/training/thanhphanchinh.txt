@@ -1,0 +1,22 @@
+-Đối tượng Configuration
+buid ra SessionFactory
+-SessionFactory
+Đối tượng Configuration được sử dụng để tạo ra một đối tượng SessionFactory
+mà cấu hình Hibernate cho ứng dụng bằng cách sử dụng tệp tin cấu hình được
+cung cấp và cho phép một đối tượng Session được khởi tạo. SessionFactory
+là một đối tượng luồng an toàn và được sử dụng bởi tất cả các luồng của
+một ứng dụng.
+-Một session được sử dụng để có được một kết nối vật lý với một cơ sở dữ liệu.
+Đối tượng Session là nhẹ và được thiết kế để được tạo ra thể hiện mỗi khi
+tương tác với cơ sở dữ liệu.Các đối tượng liên tục được lưu và truy xuất
+thông qua một đối tượng Session.
+-Một Transaction đại diện cho một đơn vị làm việc với cơ sở dữ liệu
+và hầu hết các RDBMS hỗ trợ chức năng transaction. Các transaction
+trong Hibernate được xử lý bởi trình quản lý transaction và transaction
+(từ JDBC hoặc JTA).
+-Đối tượng Query
+Các đối tượng Query sử dụng chuỗi truy vấn SQL hoặc Hibernate Query
+Language (HQL) để lấy dữ liệu từ cơ sở dữ liệu và tạo các đối tượng.
+-Criteria
+Đối tượng Criteria được sử dụng để tạo và thực hiện truy vấn các tiêu
+chí định hướng đối tượng để lấy các đối tượng
